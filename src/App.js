@@ -12,13 +12,7 @@ const Navbar = () => {
       <div className="nav-links">
         <Link to="/">Home</Link>
         <Link to="/history">History</Link>
-      </div>
-      <div className="profile">
-        <div className="profile-details">
-          <p>Uni Scholar</p>
-          <a href="/login" id="logout">Logout</a>
-        </div>
-        <img src="/img/profile.png" alt="Profile Icon" />
+        <Link to="/login" className="right-align">UniScholar</Link>
       </div>
     </div>
   );
