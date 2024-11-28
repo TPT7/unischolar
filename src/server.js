@@ -56,7 +56,21 @@ app.post('/api/comments', async (req, res) => {
     }
   });
 
-
+  app.get('/api/questions', async (req, res) => {
+    try {
+      const result = await pool.query(`
+        SELECT q.question, c.comment, c.date
+        FROM questions q
+        LEFT JOIN comments c ON q.question_id = c.question_id
+        ORDER BY q.question_id, c.date;
+      `);
+      res.status(200).json(result.rows);
+    } catch (error) {
+      console.error('Error fetching questions:', error);
+      res.status(500).send('Server error');
+    }
+  });
+  
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
