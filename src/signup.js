@@ -7,7 +7,7 @@ const SignUpPage = () => {
       <input type="text" id="usernames" placeholder="Username" required />
       <input type="password" id="passwords" placeholder="Password" required />
       <button>Signup</button>
-      <a href="login.html">Login</a>
+      <a href="./login">Login with your credentials</a>
     </div>
   );
 };
