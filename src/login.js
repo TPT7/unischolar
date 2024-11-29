@@ -15,7 +15,7 @@ const LoginPage = () => {
       if (response.status === 200) {
         setUser(response.data.user);
         alert('Login successful');
-        navigate('/home');
+        navigate('/');
       } else {
         alert('Login failed');
       }

@@ -10,8 +10,8 @@ const HomePage = () => {
 
   const handleQuestion = async () => {
     try {
-      console.log('Sending question:', { question, userId: user.id });
-      const response = await axios.post('http://localhost:5000/api/questions', { question, userId: user.id });
+      console.log('Sending question:', { question, userId: user.user_id });
+      const response = await axios.post('http://localhost:5000/api/questions', { question, userId: user.user_id });
       setQuestion(''); // Clear the question input
       setQuestionId(response.data.id); // Store the ID of the submitted question
       console.log('Question saved, ID:', response.data.id);
@@ -22,8 +22,8 @@ const HomePage = () => {
 
   const handleComment = async () => {
     try {
-      console.log('Sending comment:', { comment, questionId, userId: user.id });
-      await axios.post('http://localhost:5000/api/comments', { comment, questionId, userId: user.id });
+      console.log('Sending comment:', { comment, questionId, userId: user.user_id });
+      await axios.post('http://localhost:5000/api/comments', { comment, questionId, userId: user.user_id });
       setComment(''); // Clear the comment input
       console.log('Comment saved');
     } catch (error) {

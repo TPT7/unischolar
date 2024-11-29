@@ -60,7 +60,6 @@ app.post('/api/questions', async (req, res) => {
   }
 });
 
-// Save comment endpoint
 app.post('/api/comments', async (req, res) => {
   const { comment, questionId, userId } = req.body;
   try {
@@ -73,6 +72,7 @@ app.post('/api/comments', async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+
 
 // Fetch questions and comments for a specific user
 app.get('/api/users/:userId/questions', async (req, res) => {
