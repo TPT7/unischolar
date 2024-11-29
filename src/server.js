@@ -1,4 +1,3 @@
-// server.js
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -18,59 +17,82 @@ const pool = new Pool({
 app.use(cors());
 app.use(bodyParser.json());
 
-app.post('/api/signup', async (req, res) => {
-  const { username, password } = req.body;
-  const result = await pool.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *', [username, password]);
-  res.status(201).json(result.rows[0]);
-});
-
+// User login endpoint
 app.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
-  const result = await pool.query('SELECT * FROM users WHERE username = $1 AND password = $2', [username, password]);
-  if (result.rows.length > 0) {
-    res.status(200).json(result.rows[0]);
-  } else {
-    res.status(401).send('Invalid credentials');
+  try {
+    const result = await pool.query('SELECT * FROM users WHERE username = $1 AND password = $2', [username, password]);
+    if (result.rows.length > 0) {
+      res.status(200).json({ user: result.rows[0], message: 'Login successful' });
+    } else {
+      res.status(401).json({ message: 'Invalid credentials' });
+    }
+  } catch (error) {
+    console.error('Error logging in:', error);
+    res.status(500).send('Server error');
   }
 });
 
-app.post('/api/questions', async (req, res) => {
-  const { question } = req.body;
+
+app.post('/api/signup', async (req, res) => {
+  const { username, password } = req.body;
   try {
-    const result = await pool.query('INSERT INTO questions (question) VALUES ($1) RETURNING *', [question]);
-    res.status(201).json(result.rows[0]);
+    const result = await pool.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *', [username, password]);
+    res.status(201).json({ user: result.rows[0], message: 'Acoount created successful' });
+  } catch (error) {
+    console.error('Error signing up:', error);
+    res.status(500).send('Server error');
+  }
+});
+
+
+// Save question endpoint
+app.post('/api/questions', async (req, res) => {
+  const { question, userId } = req.body;
+  try {
+    console.log('Received question:', { question, userId });
+    const result = await pool.query('INSERT INTO questions (question, user_id) VALUES ($1, $2) RETURNING question_id', [question, userId]);
+    console.log('Question saved, ID:', result.rows[0].question_id);
+    res.status(201).json({ id: result.rows[0].question_id });
   } catch (error) {
     console.error('Error inserting question:', error);
     res.status(500).send('Server error');
   }
 });
 
+// Save comment endpoint
 app.post('/api/comments', async (req, res) => {
-    const { comment } = req.body;
-    try {
-      const result = await pool.query('INSERT INTO comments (comment) VALUES ($1) RETURNING *', [comment]);
-      res.status(201).json(result.rows[0]);
-    } catch (error) {
-      console.error('Error inserting comment:', error);
-      res.status(500).send('Server error');
-    }
-  });
+  const { comment, questionId, userId } = req.body;
+  try {
+    console.log('Received comment:', { comment, questionId, userId });
+    await pool.query('INSERT INTO comments (comment, question_id, user_id) VALUES ($1, $2, $3)', [comment, questionId, userId]);
+    console.log('Comment saved');
+    res.status(201).send('Comment added');
+  } catch (error) {
+    console.error('Error inserting comment:', error);
+    res.status(500).send('Server error');
+  }
+});
 
-  app.get('/api/questions', async (req, res) => {
-    try {
-      const result = await pool.query(`
-        SELECT q.question, c.comment, c.date
-        FROM questions q
-        LEFT JOIN comments c ON q.question_id = c.question_id
-        ORDER BY q.question_id, c.date;
-      `);
-      res.status(200).json(result.rows);
-    } catch (error) {
-      console.error('Error fetching questions:', error);
-      res.status(500).send('Server error');
-    }
-  });
-  
+// Fetch questions and comments for a specific user
+app.get('/api/users/:userId/questions', async (req, res) => {
+  const { user_id } = req.params;
+  try {
+    const result = await pool.query(`
+      SELECT q.question_id, q.question, c.comment, c.date
+      FROM questions q
+      LEFT JOIN comments c ON q.question_id = c.question_id
+      WHERE q.user_id = $1
+      ORDER BY q.question_id, c.date;
+    `, [user_id]);
+    res.status(200).json(result.rows);
+  } catch (error) {
+    console.error('Error fetching questions:', error);
+    res.status(500).send('Server error');
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+

@@ -39,7 +39,45 @@ body {
 .navbar a:hover {
   background-color: #495057;
 }
-
+.navbar .profile {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+.navbar .profile img {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+.navbar .profile-details {
+  display: none;
+  flex-direction: column;
+  align-items: flex-end;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: absolute;
+  top: 70px;
+  right: 20px;
+}
+.navbar .profile:hover .profile-details {
+  display: flex;
+}
+.navbar .profile-details p {
+  margin: 0;
+  color: #343a40;
+}
+.navbar .profile-details a {
+  color: #007bff;
+  text-decoration: none;
+  margin-top: 5px;
+}
+.navbar .profile-details a:hover {
+  text-decoration: underline;
+}
 
 /* Content Styles */
 .content {
