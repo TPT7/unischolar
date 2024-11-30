@@ -31,7 +31,6 @@ const HistoryPage = ({ userId }) => {
         // Send the comment to the server along with the question ID and user ID
         const response = await axios.post('http://localhost:5000/api/comments', {
           question_id,
-          user_id: userId, // Include the user_id
           comment,
         });
 
