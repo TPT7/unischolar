@@ -5,39 +5,22 @@ import axios from 'axios';
 const HomePage = () => {
   // const { user } = useContext(UserContext);
   const [question, setQuestion] = useState('');
-  // const [comment, setComment] = useState('');
-  const [question_id, setQuestionId] = useState(null);
 
   const handleQuestion = async () => {
     try {
       console.log('Sending question:', { question });
       const response = await axios.post('http://localhost:5000/api/questions', { question });
       setQuestion(''); // Clear the question input
-      setQuestionId(response.data.id); // Store the ID of the submitted question
       console.log('Question saved, ID:', response.data.id);
     } catch (error) {
       console.error('Error saving question:', error);
     }
   };
 
-  // const handleComment = async () => {
-  //   try {
-  //     console.log('Sending comment:', { comment});
-  //     await axios.post('http://localhost:5000/api/comments', { comment});
-  //     setComment(''); // Clear the comment input
-  //     console.log('Comment saved');
-  //   } catch (error) {
-  //     console.error('Error saving comment:', error);
-  //   }
-  // };
-
   const handleSubmit = async () => {
     if (question) {
       await handleQuestion();
     }
-    // if (comment && question_id) {
-    //   await handleComment();
-    // }
   };
 
   return (
@@ -55,13 +38,6 @@ const HomePage = () => {
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
         ></textarea>
-        {/* <textarea
-          id="commentInput"
-          rows="2"
-          placeholder="Add a comment..."
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-        ></textarea> */}
         <div className="buttons">
           <button onClick={handleSubmit}>Submit</button>
         </div>

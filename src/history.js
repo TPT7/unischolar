@@ -29,7 +29,7 @@ const HistoryPage = () => {
     if (comment.trim()) {
       try {
         // Send the comment to the server along with the question ID
-        await axios.post('http://localhost:5000/api/comments', {
+        const response = await axios.post('http://localhost:5000/api/comments', {
           question_id,
           comment,
         });
@@ -38,9 +38,10 @@ const HistoryPage = () => {
         setComment('');
 
         // Update the comments state to display the new comment
+        const newComment = response.data;
         setComments((prevComments) => ({
           ...prevComments,
-          [question_id]: [...(prevComments[question_id] || []), comment],
+          [question_id]: [...(prevComments[question_id] || []), newComment.comment],
         }));
 
         alert('Comment submitted');
@@ -68,17 +69,17 @@ const HistoryPage = () => {
           <p>No questions available.</p>
         ) : (
           questions.map((question) => (
-            <div key={question.id} className="section">
+            <div key={question.question_id} className="section">
               {/* Displaying the question */}
               <h3>Question: {question.question}</h3>
 
               {/* Display the submitted comments if they exist */}
-              {comments[question.id] && (
+              {comments[question.question_id] && (
                 <div>
-                  <h4>Answers: 
-                  {comments[question.id].map((cmt, idx) => (
+                  <h4>Answers:</h4>
+                  {comments[question.question_id].map((cmt, idx) => (
                     <p key={idx}>{cmt}</p>
-                  ))} </h4>
+                  ))}
                 </div>
               )}
 
@@ -92,7 +93,7 @@ const HistoryPage = () => {
               ></textarea>
               <div className="buttons">
                 <button
-                  onClick={() => handleCommentSubmit(question.id)} // Submit comment for the specific question
+                  onClick={() => handleCommentSubmit(question.question_id)} // Submit comment for the specific question
                 >
                   Submit Answer
                 </button>
@@ -106,66 +107,3 @@ const HistoryPage = () => {
 };
 
 export default HistoryPage;
-
-
-
-
-
-// import React, {useState} from 'react';
-// import axios from 'axios';
-
-
-// const HistoryPage = () => {
-//   const [comment, setComment] = useState('');
-
-//   const fetchQuestions = async () => {
-//           try {
-//             const response = await axios.get('http://localhost:5000/api/questions');
-//             console.log(response.data); // Store the fetched questions
-//           } catch (err) {
-//             console.log('Error fetching questions');
-//           }
-//         };
-
-//   const handleComment = async () => {
-//       try {
-//         console.log('Sending comment:', { comment});
-//         await axios.post('http://localhost:5000/api/comments', { comment});
-//         setComment(''); // Clear the comment input
-//         console.log('Comment saved');
-//       } catch (error) {
-//         console.error('Error saving comment:', error);
-//       }
-//     };
-//   const handleSubmit = async () => {
-//       if (comment) {
-//         await handleComment();
-//       }
-//     };
-
-// return (
-//       <div className="content">
-//         <div id="history" className="section">
-//           <h2>Questions and Answers</h2>
-//           <p>You can view all the questions posted and add your comments here.</p>
-//         </div>
-//         <div id="history" className="section">
-//           <p>Question:</p>
-//           <p>Answer: </p>
-//           <textarea
-//           id="commentInput"
-//           rows="2"
-//           placeholder="Add a comment..."
-//           value={comment}
-//           onChange={(e) => setComment(e.target.value)}
-//         ></textarea>
-//         <div className="buttons">
-//           <button onClick={handleSubmit}>Submit</button>
-//         </div>
-
-//         </div>
-//       </div>
-//     );
-//   };
-  
-//   export default HistoryPage;
