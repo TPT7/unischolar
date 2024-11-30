@@ -1,17 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import UserContext from './usercontext';
+// import UserContext from './usercontext';
 
 const HomePage = () => {
-  const { user } = useContext(UserContext);
+  // const { user } = useContext(UserContext);
   const [question, setQuestion] = useState('');
   const [comment, setComment] = useState('');
-  const [questionId, setQuestionId] = useState(null);
+  const [question_id, setQuestionId] = useState(null);
 
   const handleQuestion = async () => {
     try {
-      console.log('Sending question:', { question, userId: user.user_id });
-      const response = await axios.post('http://localhost:5000/api/questions', { question, userId: user.user_id });
+      console.log('Sending question:', { question });
+      const response = await axios.post('http://localhost:5000/api/questions', { question });
       setQuestion(''); // Clear the question input
       setQuestionId(response.data.id); // Store the ID of the submitted question
       console.log('Question saved, ID:', response.data.id);
@@ -22,8 +22,8 @@ const HomePage = () => {
 
   const handleComment = async () => {
     try {
-      console.log('Sending comment:', { comment, questionId, userId: user.user_id });
-      await axios.post('http://localhost:5000/api/comments', { comment, questionId, userId: user.user_id });
+      console.log('Sending comment:', { comment, question_id});
+      await axios.post('http://localhost:5000/api/comments', { comment, question_id});
       setComment(''); // Clear the comment input
       console.log('Comment saved');
     } catch (error) {
@@ -35,7 +35,7 @@ const HomePage = () => {
     if (question) {
       await handleQuestion();
     }
-    if (comment && questionId) {
+    if (comment && question_id) {
       await handleComment();
     }
   };

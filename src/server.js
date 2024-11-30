@@ -46,13 +46,13 @@ app.post('/api/signup', async (req, res) => {
 });
 
 
-// Save question endpoint
+//Save question endpoint
 app.post('/api/questions', async (req, res) => {
-  const { question, userId } = req.body;
+  const { question} = req.body;
   try {
-    console.log('Received question:', { question, userId });
-    const result = await pool.query('INSERT INTO questions (question, user_id) VALUES ($1, $2) RETURNING question_id', [question, userId]);
-    console.log('Question saved, ID:', result.rows[0].question_id);
+    console.log('Received question:', { question });
+    const result = await pool.query('INSERT INTO questions (question) VALUES ($1) RETURNING question_id', [question]);
+    alert('Question saved, ID:', result.rows[0].question_id);
     res.status(201).json({ id: result.rows[0].question_id });
   } catch (error) {
     console.error('Error inserting question:', error);
@@ -61,11 +61,11 @@ app.post('/api/questions', async (req, res) => {
 });
 
 app.post('/api/comments', async (req, res) => {
-  const { comment, questionId, userId } = req.body;
+  const { comment,question_id} = req.body;
   try {
-    console.log('Received comment:', { comment, questionId, userId });
-    await pool.query('INSERT INTO comments (comment, question_id, user_id) VALUES ($1, $2, $3)', [comment, questionId, userId]);
-    console.log('Comment saved');
+    console.log('Received comment:', { comment,question_id});
+    await pool.query('INSERT INTO comments (comment,question_id) VALUES ($1,$2) RETURNING comment_id', [comment,question_id]);
+    alert('Comment saved');
     res.status(201).send('Comment added');
   } catch (error) {
     console.error('Error inserting comment:', error);
@@ -95,4 +95,3 @@ app.get('/api/users/:userId/questions', async (req, res) => {
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-

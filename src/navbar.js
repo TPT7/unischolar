@@ -1,4 +1,4 @@
-import React from 'react';
+import React from'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
@@ -8,15 +8,9 @@ const Navbar = () => {
       <div className="nav-links">
         <Link to="/">Home</Link>
         <Link to="/history">History</Link>
+        <Link to="/login">Unischolar</Link>
       </div>
-      <div class="profile">
-            <div class="profile-details">
-                <p>Uni Scholar</p>
-                <a href="/login">Logout</a>
-            </div>
-            <img src="img/profile.png" alt="Profile Icon"/>
-        </div>
-    </div>
+  </div>
   );
 };
 

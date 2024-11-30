@@ -14,14 +14,16 @@ const App = () => {
 
   return (
     <UserProvider>
-      <div>
+      <div className="app-layout">
         {showNavbar && <Navbar />}
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/history" element={<HistoryPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/login" element={<LoginPage />} />
-        </Routes>
+        <div className="content-area">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/history" element={<HistoryPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/login" element={<LoginPage />} />
+          </Routes>
+        </div>
       </div>
     </UserProvider>
   );
