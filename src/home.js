@@ -47,7 +47,7 @@ const HomePage = () => {
         <p>This platform allows students to ask questions and share answers. Feel free to explore and contribute to the community.</p>
       </div>
       <div id="questions-comments" className="section">
-        <h2>Ask a Question and Add a Comment</h2>
+        <h2>Ask a Question</h2>
         <textarea
           id="questionInput"
           rows="4"

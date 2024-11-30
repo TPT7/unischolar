@@ -21,6 +21,7 @@ body, html, #root {
 .nav-links {
   display: flex;
   flex-direction: column;
+  
 }
 
 .nav-links a {
@@ -34,6 +35,7 @@ body, html, #root {
 .nav-links a:hover {
   background-color: #0056b3; /* Darker #0056b3 on hover */
   border-radius: 4px;
+  transform: translateY(-5px);
 
 }
 
@@ -118,6 +120,8 @@ body, html, #root {
 }
 
 .buttons button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   background-color: #0056b3;
 }
 
@@ -231,6 +235,7 @@ body.login, body.signup {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
   transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
 }
 
 .user-card h3 {

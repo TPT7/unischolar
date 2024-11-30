@@ -71,13 +71,18 @@ app.post('/api/questions', async (req, res) => {
 });
 
 app.post('/api/comments', async (req, res) => {
-  const { comment, question_id} = req.body;
+  const { question_id, comment } = req.body;
+
+  // Validate the input
+  if (!question_id || !comment) {
+    return res.status(400).json({ error: 'question_id and comment are required' });
+  }
 
   try {
     // Insert the comment into the database and get the newly created comment
     const result = await pool.query(
-      'INSERT INTO comments (question_id, comment) VALUES ($1, $2) RETURNING question_id, comment, date',
-      [question_id, comment] // Inserting the question_id, user_id, and comment
+      'INSERT INTO comments (question_id, comment) VALUES ($1, $2) RETURNING question_id, comment',
+      [question_id, comment] // Inserting the question_id and comment
     );
 
     const newComment = result.rows[0]; // Extract the newly inserted comment
@@ -87,11 +92,9 @@ app.post('/api/comments', async (req, res) => {
     res.status(201).json(newComment);
   } catch (error) {
     console.error('Error inserting comment:', error);
-    res.status(500).send('Server error');
+    res.status(500).json({ error: 'Error saving comment' });
   }
 });
-
-
 
 // Fetch questions and comments for a specific user
 app.get('/api/questions', async (req, res) => {

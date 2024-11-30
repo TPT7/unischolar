@@ -41,7 +41,7 @@ const Users = () => {
       </div>
 
       <div id="users" className="section">
-        <h2>Users List</h2>
+        <h2>Users</h2>
 
         {/* Search Box */}
         <div className="search-box">
