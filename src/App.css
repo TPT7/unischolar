@@ -15,7 +15,7 @@ body, html, #root {
   width: 120px;
   background-color: black; /* #0056b3 color */
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  padding: 10px;
+  padding: 20px;
 }
 
 .nav-links {
@@ -207,3 +207,115 @@ body.login, body.signup {
   background-color: #0056b3;
 }
 
+/* Users Section */
+#users {
+  margin-top: 20px;
+  position: relative; /* This will make the positioning of the search box relative to this container */
+}
+
+
+/* User List Container */
+.user-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid layout */
+  gap: 20px; /* Space between cards */
+  margin-top: 20px;
+}
+
+/* User Card Styling */
+.user-card {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.user-card h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: black; /* Blue for username */
+}
+
+.user-card p {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Hover effect for user cards */
+.user-card:hover {
+  transform: translateY(-5px); /* Slightly lift the card on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhance shadow effect */
+}
+/* Search Box Styling */
+/* Content Styling */
+.content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Align search box to top right */
+.search-box {
+  position: absolute;
+  top: 20px; /* Distance from the top */
+  right: 20px; /* Distance from the right */
+  margin-bottom: 20px;
+}
+
+/* Styling for the search input */
+.search-input {
+  padding: 10px;
+  width: 250px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+/* Styles for the question items */
+.question-item {
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+/* Text area for comments */
+.comment-textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical;
+}
+
+/* Submit button */
+.submit-comment {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-comment:hover {
+  background-color: #0056b3;
+}
+
+/* Comments section styling */
+.comments-section {
+  margin-top: 15px;
+}
+
+.comment {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #e9e9e9;
+  border-radius: 5px;
+}

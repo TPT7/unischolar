@@ -35,13 +35,23 @@ app.post('/api/login', async (req, res) => {
 
 
 app.post('/api/signup', async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, programme } = req.body;
   try {
-    const result = await pool.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *', [username, password]);
+    const result = await pool.query('INSERT INTO users (username, password, programme) VALUES ($1, $2, $3) RETURNING *', [username, password, programme]);
     res.status(201).json({ user: result.rows[0], message: 'Acoount created successful' });
   } catch (error) {
     console.error('Error signing up:', error);
     res.status(500).send('Server error');
+  }
+});
+
+app.get('/api/users', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT programme, username FROM users');
+    res.json(result.rows); // Send users data as response
+  } catch (err) {
+    console.error('Database query error:', err); // More specific error message
+    res.status(500).send('Error fetching users');
   }
 });
 
@@ -52,7 +62,7 @@ app.post('/api/questions', async (req, res) => {
   try {
     console.log('Received question:', { question });
     const result = await pool.query('INSERT INTO questions (question) VALUES ($1) RETURNING question_id', [question]);
-    alert('Question saved, ID:', result.rows[0].question_id);
+    console.log('Question saved, ID:', result.rows[0].question_id);
     res.status(201).json({ id: result.rows[0].question_id });
   } catch (error) {
     console.error('Error inserting question:', error);
@@ -61,11 +71,11 @@ app.post('/api/questions', async (req, res) => {
 });
 
 app.post('/api/comments', async (req, res) => {
-  const { comment,question_id} = req.body;
+  const { comment} = req.body;
   try {
-    console.log('Received comment:', { comment,question_id});
-    await pool.query('INSERT INTO comments (comment,question_id) VALUES ($1,$2) RETURNING comment_id', [comment,question_id]);
-    alert('Comment saved');
+    console.log('Received comment:', { comment});
+    await pool.query('INSERT INTO comments (comment) VALUES ($1) RETURNING comment_id', [comment]);
+    console.log('Comment saved');
     res.status(201).send('Comment added');
   } catch (error) {
     console.error('Error inserting comment:', error);
@@ -75,22 +85,17 @@ app.post('/api/comments', async (req, res) => {
 
 
 // Fetch questions and comments for a specific user
-app.get('/api/users/:userId/questions', async (req, res) => {
-  const { user_id } = req.params;
+app.get('/api/questions', async (req, res) => {
   try {
-    const result = await pool.query(`
-      SELECT q.question_id, q.question, c.comment, c.date
-      FROM questions q
-      LEFT JOIN comments c ON q.question_id = c.question_id
-      WHERE q.user_id = $1
-      ORDER BY q.question_id, c.date;
-    `, [user_id]);
-    res.status(200).json(result.rows);
+    // Query to select all questions
+    const result = await pool.query('SELECT * FROM questions');
+    res.status(200).json(result.rows); // Return all questions in the response
   } catch (error) {
     console.error('Error fetching questions:', error);
     res.status(500).send('Server error');
   }
 });
+
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

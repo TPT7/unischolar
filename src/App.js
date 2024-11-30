@@ -5,6 +5,7 @@ import HistoryPage from './history';
 import SignUpPage from './signup';
 import LoginPage from './login';
 import Navbar from './navbar';
+import Users from './users';
 import { UserProvider } from './usercontext';
 import './App.css';
 
@@ -14,16 +15,15 @@ const App = () => {
 
   return (
     <UserProvider>
-      <div className="app-layout">
+      <div>
         {showNavbar && <Navbar />}
-        <div className="content-area">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/history" element={<HistoryPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/login" element={<LoginPage />} />
-          </Routes>
-        </div>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/history" element={<HistoryPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/users" element={<Users />} />
+        </Routes>
       </div>
     </UserProvider>
   );

@@ -7,11 +7,12 @@ const SignUpPage = () => {
   const { setUser } = useContext(UserContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [programme, setProgramme] = useState('');
   const navigate = useNavigate();
 
   const handleSignup = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/signup', { username, password });
+      const response = await axios.post('http://localhost:5000/api/signup', { username, password, programme });
       if (response.status === 201) {
         // Set user context upon successful signup
         setUser(response.data.user);
@@ -44,6 +45,14 @@ const SignUpPage = () => {
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        required
+      />
+       <input
+        type="text"
+        id="programmes"
+        placeholder="Programme"
+        value={programme}
+        onChange={(e) => setProgramme(e.target.value)}
         required
       />
       <button onClick={handleSignup}>Signup</button>
