@@ -1,15 +1,30 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-// import UserContext from './usercontext';
 
 const HomePage = () => {
-  // const { user } = useContext(UserContext);
   const [question, setQuestion] = useState('');
 
   const handleQuestion = async () => {
     try {
-      console.log('Sending question:', { question });
-      const response = await axios.post('http://localhost:5000/api/questions', { question });
+      // Retrieve user_id from localStorage (assuming it's stored there after login)
+      const userId = localStorage.getItem('user_id'); // Get user_id from localStorage
+
+      // Check if userId exists in localStorage
+      if (!userId) {
+        console.error('User not logged in!');
+        return;
+      }
+
+      // Prepare the question data with user_id
+      const questionData = {
+        question,
+        user_id: userId, // Attach the user_id from localStorage
+      };
+
+      console.log('Sending question:', questionData);
+      
+      // Send the question along with the user_id to the backend
+      const response = await axios.post('http://localhost:5000/api/questions', questionData);
       setQuestion(''); // Clear the question input
       console.log('Question saved, ID:', response.data.id);
     } catch (error) {

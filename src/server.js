@@ -47,7 +47,7 @@ app.post('/api/signup', async (req, res) => {
 
 app.get('/api/users', async (req, res) => {
   try {
-    const result = await pool.query('SELECT programme, username FROM users');
+    const result = await pool.query('SELECT user_id, programme, username FROM users');
     res.json(result.rows); // Send users data as response
   } catch (err) {
     console.error('Database query error:', err); // More specific error message
@@ -58,17 +58,38 @@ app.get('/api/users', async (req, res) => {
 
 //Save question endpoint
 app.post('/api/questions', async (req, res) => {
-  const { question} = req.body;
+  const { question, user_id } = req.body;
+
   try {
-    console.log('Received question:', { question });
-    const result = await pool.query('INSERT INTO questions (question) VALUES ($1) RETURNING question_id', [question]);
+    // Ensure user_id is provided
+    if (!user_id) {
+      return res.status(400).json({ message: 'User ID is required' });
+    }
+
+    // Log the received question and user_id for debugging
+    console.log('Received question:', { question, user_id });
+
+    // Insert the question along with user_id into the database
+    const result = await pool.query(
+      'INSERT INTO questions (question, user_id) VALUES ($1, $2) RETURNING question_id',
+      [question, user_id]
+    );
+
+    // Log the saved question ID for debugging
     console.log('Question saved, ID:', result.rows[0].question_id);
+
+    // Return the question_id as part of the response
     res.status(201).json({ id: result.rows[0].question_id });
   } catch (error) {
+    // Log any errors for debugging
     console.error('Error inserting question:', error);
+
+    // Return a server error status if something goes wrong
     res.status(500).send('Server error');
   }
 });
+
+
 
 app.post('/api/comments', async (req, res) => {
   const { question_id,comment } = req.body;
