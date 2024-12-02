@@ -44,7 +44,7 @@ const HistoryPage = ({ userId }) => {
           [question_id]: [...(prevComments[question_id] || []), newComment.comment],
         }));
 
-        alert('Comment submitted');
+        console.log('Comment submitted');
       } catch (err) {
         setError('Error submitting comment');
         console.error(err);
