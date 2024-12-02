@@ -14,7 +14,7 @@ const Navbar = () => {
     if (storedUsername && storedUserId) {
       // If data is in localStorage, set it in state
       setUsername(storedUsername);
-      setUserid(storedUserId);
+      setUserid(parseInt(storedUserId)); // Parse user_id as integer
     } else {
       // Optionally, fetch users from the API if there's no username stored
       const fetchUsers = async () => {
@@ -27,7 +27,7 @@ const Navbar = () => {
             
             // Store username and user_id in localStorage for future reference
             localStorage.setItem('username', response.data[0].username); 
-            localStorage.setItem('user_id', response.data[0].user_id); // Correct field name
+            localStorage.setItem('user_id', response.data[0].user_id.toString()); // Convert user_id to string before storing
           }
         } catch (err) {
           console.log('Error fetching users');
@@ -41,7 +41,7 @@ const Navbar = () => {
     <div className="navbar">
       <div className="nav-links">
         {username ? (
-          <Link to="/login">Welcome {username}</Link> // Display username and user_id if available
+          <Link to="/login">Welcome {username}</Link> // Display username if available
         ) : (
           <Link to="/login">Welcome</Link> // Default text if no username is found
         )}
