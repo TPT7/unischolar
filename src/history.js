@@ -76,7 +76,7 @@ const HistoryPage = () => {
               {/* Display the submitted comments if they exist */}
               {comments[question.question_id] && (
                 <div>
-                  <h4>Answers:</h4>
+                  <h4>Answers: </h4>
                   {comments[question.question_id].map((cmt, idx) => (
                     <p key={idx}>{cmt}</p>
                   ))}
