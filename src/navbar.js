@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import axios from 'axios';
 
 const Navbar = () => {
   const [username, setUsername] = useState('');
   const [user_id, setUserid] = useState('');
+  const navigate = useNavigate(); // Use useNavigate for navigation
 
   useEffect(() => {
     // Check if there's a username in localStorage when the component mounts
@@ -37,17 +38,31 @@ const Navbar = () => {
     }
   }, []); // Empty dependency array to run only once when the component mounts
 
+  const handleLogout = () => {
+    // Clear localStorage
+    localStorage.removeItem('username');
+    localStorage.removeItem('user_id');
+    // Reset state
+    setUsername('');
+    setUserid('');
+    // Redirect to login page
+    navigate('/login');
+  };
+
   return (
     <div className="navbar">
       <div className="nav-links">
         {username ? (
-          <Link to="/login">Welcome {username}</Link> // Display username if available
+          <Link >Welcome {username}</Link> // Display username if available
         ) : (
-          <Link to="/login">Welcome</Link> // Default text if no username is found
+          <Link>Welcome</Link> // Default text if no username is found
         )}
         <Link to="/">Home</Link>
         <Link to="/history">Questions</Link>
         <Link to="/users">Users</Link>
+        {username && ( // Only show logout button if the user is logged in
+          <Link to="/login" onClick={handleLogout}>Logout</Link>
+        )}
       </div>
     </div>
   );
