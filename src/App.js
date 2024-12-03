@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import HomePage from './home';
 import HistoryPage from './history';
 import SignUpPage from './signup';
@@ -18,8 +18,10 @@ const App = () => {
       <div>
         {showNavbar && <Navbar />}
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          {/* Redirect the default route '/' to '/login' */}
+          <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/history" element={<HistoryPage />} />
+          <Route path="/home" element={<HomePage />}/>
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/users" element={<Users />} />

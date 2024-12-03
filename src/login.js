@@ -16,7 +16,7 @@ const LoginPage = () => {
         setUser(response.data.user);
         alert('Login successful');
         localStorage.setItem('username', username);
-        navigate('/');
+        navigate('/home');
       } else {
         alert('Login failed');
       }
