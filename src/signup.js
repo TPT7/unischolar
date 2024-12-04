@@ -14,10 +14,8 @@ const SignUpPage = () => {
     try {
       const response = await axios.post('http://localhost:5000/api/signup', { username, password, programme });
       if (response.status === 201) {
-        // Set user context upon successful signup
         setUser(response.data.user);
         alert('Account created successfully');
-        // Redirect to the home page
         navigate('/login');
       } else {
         alert('Signup failed');

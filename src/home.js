@@ -6,26 +6,22 @@ const HomePage = () => {
 
   const handleQuestion = async () => {
     try {
-      // Retrieve user_id from localStorage (assuming it's stored there after login)
-      const userId = localStorage.getItem('user_id'); // Get user_id from localStorage
+      const userId = localStorage.getItem('user_id'); 
 
-      // Check if userId exists in localStorage
       if (!userId) {
         console.error('User not logged in!');
         return;
       }
 
-      // Prepare the question data with user_id
       const questionData = {
         question,
-        user_id: userId, // Attach the user_id from localStorage
+        user_id: userId, 
       };
 
       console.log('Sending question:', questionData);
       
-      // Send the question along with the user_id to the backend
       const response = await axios.post('http://localhost:5000/api/questions', questionData);
-      setQuestion(''); // Clear the question input
+      setQuestion(''); 
       console.log('Question saved, ID:', response.data.id);
     } catch (error) {
       console.error('Error saving question:', error);

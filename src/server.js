@@ -17,7 +17,6 @@ const pool = new Pool({
 app.use(cors());
 app.use(bodyParser.json());
 
-// User login endpoint
 app.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
   try {
@@ -33,7 +32,6 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-
 app.post('/api/signup', async (req, res) => {
   const { username, password, programme } = req.body;
   try {
@@ -48,68 +46,54 @@ app.post('/api/signup', async (req, res) => {
 app.get('/api/users', async (req, res) => {
   try {
     const result = await pool.query('SELECT user_id, programme, username FROM users');
-    res.json(result.rows); // Send users data as response
+    res.json(result.rows); 
   } catch (err) {
-    console.error('Database query error:', err); // More specific error message
+    console.error('Database query error:', err); 
     res.status(500).send('Error fetching users');
   }
 });
 
-
-//Save question endpoint
 app.post('/api/questions', async (req, res) => {
   const { question, user_id } = req.body;
 
   try {
-    // Ensure user_id is provided
     if (!user_id) {
       return res.status(400).json({ message: 'User ID is required' });
     }
 
-    // Log the received question and user_id for debugging
     console.log('Received question:', { question, user_id });
 
-    // Insert the question along with user_id into the database
     const result = await pool.query(
       'INSERT INTO questions (question, user_id) VALUES ($1, $2) RETURNING question_id',
       [question, user_id]
     );
 
-    // Log the saved question ID for debugging
     console.log('Question saved, ID:', result.rows[0].question_id);
 
-    // Return the question_id as part of the response
     res.status(201).json({ id: result.rows[0].question_id });
   } catch (error) {
-    // Log any errors for debugging
     console.error('Error inserting question:', error);
 
-    // Return a server error status if something goes wrong
     res.status(500).send('Server error');
   }
 });
 
-
-
 app.post('/api/comments', async (req, res) => {
   const { question_id,comment } = req.body;
 
-  // Validate the input
   if (!question_id || !comment) {
     return res.status(400).json({ error: 'question_id and comment are required' });
   }
 
   try {
-    // Insert the comment into the database and get the newly created comment
     const result = await pool.query(
       'INSERT INTO comments (question_id, comment) VALUES ($1, $2) RETURNING question_id, comment, date',
-      [question_id, comment] // Inserting the question_id, user_id, and comment
+      [question_id, comment] 
     );
 
-    const newComment = result.rows[0]; // Extract the newly inserted comment
+    const newComment = result.rows[0];
 
     console.log('Comment saved:', newComment);
-    // Send back the new comment
     res.status(201).json(newComment);
   } catch (error) {
     console.error('Error inserting comment:', error);
@@ -117,14 +101,10 @@ app.post('/api/comments', async (req, res) => {
   }
 });
 
-
-
-// Fetch questions and comments for a specific user
 app.get('/api/questions', async (req, res) => {
   try {
-    // Query to select all questions
     const result = await pool.query('SELECT * FROM questions');
-    res.status(200).json(result.rows); // Return all questions in the response
+    res.status(200).json(result.rows); 
   } catch (error) {
     console.error('Error fetching questions:', error);
     res.status(500).send('Server error');

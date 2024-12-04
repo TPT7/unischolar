@@ -2,35 +2,32 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const Users = () => {
-  // State to store users
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true); // State to track loading status
-  const [error, setError] = useState(null); // State to track any errors
-  const [searchQuery, setSearchQuery] = useState(''); // State to store the search query
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null); 
+  const [searchQuery, setSearchQuery] = useState(''); 
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/users'); // Adjust URL based on your backend API
-        setUsers(response.data); // Store the fetched users in state
-        setLoading(false); // Set loading to false once the data is fetched
+        const response = await axios.get('http://localhost:5000/api/users'); 
+        setUsers(response.data); 
+        setLoading(false); 
       } catch (err) {
-        setError('Error fetching users'); // Set an error if something goes wrong
-        setLoading(false); // Set loading to false even if there is an error
+        setError('Error fetching users'); 
+        setLoading(false); 
       }
     };
 
     fetchUsers();
   }, []);
 
-  // Filter users based on the search query
   const filteredUsers = users.filter((user) =>
     user.username.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Handle the change in search input
   const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value); // Update search query state
+    setSearchQuery(e.target.value); 
   };
 
   return (
@@ -43,23 +40,22 @@ const Users = () => {
       <div id="users" className="section">
         <h2>Users</h2>
 
-        {/* Search Box */}
         <div className="search-box">
           <input
             type="text"
             placeholder="Search by username"
             value={searchQuery}
-            onChange={handleSearchChange} // Update the search query as user types
+            onChange={handleSearchChange} 
             className="search-input"
           />
         </div>
 
         {loading ? (
-          <p>Loading users...</p> // Show loading message while fetching data
+          <p>Loading users...</p> 
         ) : error ? (
-          <p>{error}</p> // Show error message if there's an issue
+          <p>{error}</p> 
         ) : filteredUsers.length === 0 ? (
-          <p>No users found.</p> // Show this if there are no users matching the search
+          <p>No users found.</p> 
         ) : (
           <div className="user-list">
             {filteredUsers.map((user) => (

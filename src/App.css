@@ -1,5 +1,3 @@
-/* App.css */
-
 body, html, #root {
   height: 100%;
   margin: 0;
@@ -13,7 +11,7 @@ body, html, #root {
   position: fixed;
   height: 100%;
   width: 120px;
-  background-color: black; /* #0056b3 color */
+  background-color: black; 
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   padding: 20px;
 }
@@ -33,7 +31,7 @@ body, html, #root {
 }
 
 .nav-links a:hover {
-  background-color: #0056b3; /* Darker #0056b3 on hover */
+  background-color: #0056b3; 
   border-radius: 4px;
   transform: translateY(-5px);
 
@@ -49,7 +47,7 @@ body, html, #root {
 }
 
 .profile img {
-  width: 35px; /* Smaller profile icon */
+  width: 35px;
   border-radius: 20%;
   margin-top: 10px;
   cursor: pointer;
@@ -84,7 +82,7 @@ body, html, #root {
 }
 
 .content {
-  margin-left: 170px; /* Adjust the left margin to accommodate the smaller sidebar */
+  margin-left: 170px; 
   padding: 20px;
 }
 
@@ -163,7 +161,6 @@ textarea {
   color: #0056b3;
 }
 
-/* Login and Signup Styles */
 body.login, body.signup {
   display: flex;
   justify-content: center;
@@ -211,23 +208,18 @@ body.login, body.signup {
   background-color: #0056b3;
 }
 
-
-/* Users Section */
 #users {
   margin-top: 20px;
-  position: relative; /* This will make the positioning of the search box relative to this container */
+  position: relative; 
 }
 
-
-/* User List Container */
 .user-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid layout */
-  gap: 20px; /* Space between cards */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+  gap: 20px; 
   margin-top: 20px;
 }
 
-/* User Card Styling */
 .user-card {
   background-color: #f9f9f9;
   padding: 15px;
@@ -242,7 +234,7 @@ body.login, body.signup {
 .user-card h3 {
   margin: 0;
   font-size: 1.5rem;
-  color: black; /* Blue for username */
+  color: black; 
 }
 
 .user-card p {
@@ -250,13 +242,11 @@ body.login, body.signup {
   color: #555;
 }
 
-/* Hover effect for user cards */
 .user-card:hover {
-  transform: translateY(-5px); /* Slightly lift the card on hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhance shadow effect */
+  transform: translateY(-5px); 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 }
-/* Search Box Styling */
-/* Content Styling */
+
 .content {
   padding: 20px;
   display: flex;
@@ -264,15 +254,13 @@ body.login, body.signup {
   align-items: flex-start;
 }
 
-/* Align search box to top right */
 .search-box {
   position: absolute;
-  top: 20px; /* Distance from the top */
-  right: 20px; /* Distance from the right */
+  top: 20px; 
+  right: 20px; 
   margin-bottom: 20px;
 }
 
-/* Styling for the search input */
 .search-input {
   padding: 10px;
   width: 250px;
@@ -280,7 +268,6 @@ body.login, body.signup {
   border: 1px solid #ccc;
   font-size: 1rem;
 }
-/* Styles for the question items */
 .question-item {
   margin-bottom: 20px;
   padding: 20px;
@@ -289,7 +276,6 @@ body.login, body.signup {
   background-color: #f9f9f9;
 }
 
-/* Text area for comments */
 .comment-textarea {
   width: 100%;
   padding: 10px;
@@ -299,7 +285,6 @@ body.login, body.signup {
   resize: vertical;
 }
 
-/* Submit button */
 .submit-comment {
   margin-top: 10px;
   padding: 10px 20px;
@@ -314,7 +299,7 @@ body.login, body.signup {
   background-color: #0056b3;
 }
 
-/* Comments section styling */
+
 .comments-section {
   margin-top: 15px;
 }

@@ -18,7 +18,6 @@ const App = () => {
       <div>
         {showNavbar && <Navbar />}
         <Routes>
-          {/* Redirect the default route '/' to '/login' */}
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/history" element={<HistoryPage />} />
           <Route path="/home" element={<HomePage />}/>
