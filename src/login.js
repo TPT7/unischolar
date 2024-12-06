@@ -11,6 +11,7 @@ const LoginPage = () => {
   const [bannerMessage, setBannerMessage] = useState('');  
   const navigate = useNavigate();
 
+  //funtion for logging in using users stored in database
   const handleLogin = async () => {
     try {
       const response = await axios.post('http://localhost:5000/api/login', { username, password });
@@ -19,6 +20,7 @@ const LoginPage = () => {
         console.log('Login successful');
         localStorage.setItem('username', username);
         
+        //shows banner after successful login
         setBannerMessage('Login successful!');
         setShowBanner(true);
 
@@ -35,6 +37,7 @@ const LoginPage = () => {
       }
     } catch (error) {
       console.error('Error logging in:', error);
+      //shows banner after failed login
       setBannerMessage('Login failed, please try again.');
       setShowBanner(true);
 

@@ -7,6 +7,7 @@ const Users = () => {
   const [error, setError] = useState(null); 
   const [searchQuery, setSearchQuery] = useState(''); 
 
+  //function for fetching users
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -22,6 +23,7 @@ const Users = () => {
     fetchUsers();
   }, []);
 
+  //searching users both in upper and lower case
   const filteredUsers = users.filter((user) =>
     user.username.toLowerCase().includes(searchQuery.toLowerCase())
   );

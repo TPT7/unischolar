@@ -5,6 +5,7 @@ const HomePage = () => {
   const [question, setQuestion] = useState('');
   const [showBanner, setShowBanner] = useState(false);  
 
+  //sends question but validates if user is logged in
   const handleQuestion = async () => {
     try {
       const userId = localStorage.getItem('user_id'); 
@@ -25,7 +26,7 @@ const HomePage = () => {
       setQuestion(''); 
       console.log('Question saved, ID:', response.data.id);
 
-    
+      //shows banner after sending question
       setShowBanner(true);
       setTimeout(() => {
         setShowBanner(false);

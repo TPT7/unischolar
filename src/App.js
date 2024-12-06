@@ -11,6 +11,7 @@ import { UserProvider } from './usercontext';
 import './App.css';
 
 const App = () => {
+  //removing navbar from login, signup and welcome page
   const location = useLocation();
   const showNavbar = !['/login', '/signup', '/welcome'].includes(location.pathname);
 

@@ -7,6 +7,7 @@ const Navbar = () => {
   const [user_id, setUserid] = useState('');
   const navigate = useNavigate(); 
 
+  //displays name of user that has logged in
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
     const storedUserId = localStorage.getItem('user_id');
@@ -34,6 +35,7 @@ const Navbar = () => {
     }
   }, []); 
 
+  //logs out user and navigates to login page
   const handleLogout = () => {
     localStorage.removeItem('username');
     localStorage.removeItem('user_id');

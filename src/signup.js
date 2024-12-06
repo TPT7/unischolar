@@ -12,6 +12,7 @@ const SignUpPage = () => {
   const [bannerMessage, setBannerMessage] = useState(''); 
   const navigate = useNavigate();
 
+  //function for signing up users in the database
   const handleSignup = async () => {
     try {
       const response = await axios.post('http://localhost:5000/api/signup', { username, password, programme });
@@ -19,6 +20,7 @@ const SignUpPage = () => {
         setUser(response.data.user);
         console.log('Account created successfully');
         
+        //shows banner after successful signup
         setBannerMessage('Account created successfully!');
         setShowBanner(true);
 
@@ -35,6 +37,7 @@ const SignUpPage = () => {
     } catch (error) {
       console.error('Signup failed:', error);
       
+      //shows banner after failed signup
       setBannerMessage('Signup failed, please try again.');
       setShowBanner(true);
 
