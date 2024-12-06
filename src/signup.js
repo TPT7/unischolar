@@ -1,13 +1,15 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import UserContext from './usercontext';
+import UserContext from './usercontext'; 
 
 const SignUpPage = () => {
   const { setUser } = useContext(UserContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [programme, setProgramme] = useState('');
+  const [showBanner, setShowBanner] = useState(false); 
+  const [bannerMessage, setBannerMessage] = useState(''); 
   const navigate = useNavigate();
 
   const handleSignup = async () => {
@@ -15,20 +17,42 @@ const SignUpPage = () => {
       const response = await axios.post('http://localhost:5000/api/signup', { username, password, programme });
       if (response.status === 201) {
         setUser(response.data.user);
-        alert('Account created successfully');
-        navigate('/login');
+        console.log('Account created successfully');
+        
+        setBannerMessage('Account created successfully!');
+        setShowBanner(true);
+
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000); 
+
+        setTimeout(() => {
+          setShowBanner(false);
+        }, 3000);
       } else {
-        alert('Signup failed');
+        console.log('Signup failed');
       }
     } catch (error) {
       console.error('Signup failed:', error);
-      alert('Signup failed');
+      
+      setBannerMessage('Signup failed, please try again.');
+      setShowBanner(true);
+
+      setTimeout(() => {
+        setShowBanner(false);
+      }, 3000);
     }
   };
 
   return (
     <div className="login-container">
-      <h2>Uni Scholar Sign Up Form</h2>
+      {showBanner && (
+        <div className="banner">
+          <p>{bannerMessage}</p>
+        </div>
+      )}
+
+      <h2>Sign Up</h2>
       <input
         type="text"
         id="usernames"
@@ -45,7 +69,7 @@ const SignUpPage = () => {
         onChange={(e) => setPassword(e.target.value)}
         required
       />
-       <input
+      <input
         type="text"
         id="programmes"
         placeholder="Programme"

@@ -50,7 +50,7 @@ const Navbar = () => {
         ) : (
           <Link>Welcome</Link> 
         )}
-        <Link to="/">Home</Link>
+        <Link to="/home">Home</Link>
         <Link to="/history">Questions</Link>
         <Link to="/users">Users</Link>
         {username && ( 

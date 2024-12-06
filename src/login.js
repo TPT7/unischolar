@@ -1,12 +1,14 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import UserContext from './usercontext';
+import UserContext from './usercontext'; 
 
 const LoginPage = () => {
   const { setUser } = useContext(UserContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showBanner, setShowBanner] = useState(false); 
+  const [bannerMessage, setBannerMessage] = useState('');  
   const navigate = useNavigate();
 
   const handleLogin = async () => {
@@ -14,20 +16,42 @@ const LoginPage = () => {
       const response = await axios.post('http://localhost:5000/api/login', { username, password });
       if (response.status === 200) {
         setUser(response.data.user);
-        alert('Login successful');
+        console.log('Login successful');
         localStorage.setItem('username', username);
-        navigate('/home');
+        
+        setBannerMessage('Login successful!');
+        setShowBanner(true);
+
+        setTimeout(() => {
+          navigate('/home');
+        }, 2000); 
+
+  
+        setTimeout(() => {
+          setShowBanner(false);
+        }, 3000);
       } else {
-        alert('Login failed');
+        console.log('Login failed');
       }
     } catch (error) {
       console.error('Error logging in:', error);
-      alert('Login failed');
+      setBannerMessage('Login failed, please try again.');
+      setShowBanner(true);
+
+      setTimeout(() => {
+        setShowBanner(false);
+      }, 3000);
     }
   };
 
   return (
     <div className="login-container">
+      {showBanner && (
+        <div className="banner">
+          <p>{bannerMessage}</p>
+        </div>
+      )}
+
       <h2>Login</h2>
       <input
         type="text"

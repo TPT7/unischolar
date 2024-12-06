@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from 'axios';  
 
 const HistoryPage = () => {
   const [questions, setQuestions] = useState([]);
-  const [comments, setComments] = useState({}); 
+  const [comments, setComments] = useState({});
   const [comment, setComment] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const [showBanner, setShowBanner] = useState(false); 
+  const [bannerMessage, setBannerMessage] = useState('');
 
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/questions');
-        setQuestions(response.data); 
+        setQuestions(response.data);
         setLoading(false);
       } catch (err) {
         setError('Error fetching questions');
@@ -32,28 +33,45 @@ const HistoryPage = () => {
           comment,
         });
 
-     
         setComment('');
-
-      
         const newComment = response.data;
         setComments((prevComments) => ({
           ...prevComments,
           [question_id]: [...(prevComments[question_id] || []), newComment.comment],
         }));
 
+        // Show success banner
+        setBannerMessage('Your answer has been submitted!');
+        setShowBanner(true);
+        setTimeout(() => {
+          setShowBanner(false);
+        }, 3000);  // Hide banner after 3 seconds
+
         console.log('Comment submitted');
+        
       } catch (err) {
         setError('Error submitting comment');
+        setBannerMessage('Error submitting your answer, please try again.');
+        setShowBanner(true);
+        setTimeout(() => {
+          setShowBanner(false);
+        }, 3000);  // Hide banner after 3 seconds
         console.error(err);
       }
     } else {
-      alert('Comment cannot be empty');
+      console.log('Comment cannot be empty');
     }
   };
 
   return (
     <div className="content">
+      {/* Display success or error banner if showBanner is true */}
+      {showBanner && (
+        <div className="banner">
+          <p>{bannerMessage}</p>
+        </div>
+      )}
+
       <div id="history" className="section">
         <h2>Questions and Answers</h2>
         <p>You can view all the questions posted and add your comments here.</p>
@@ -68,7 +86,6 @@ const HistoryPage = () => {
         ) : (
           questions.map((question) => (
             <div key={question.question_id} className="section">
-         
               <h3>Question: {question.question}</h3>
 
               {comments[question.question_id] && (
@@ -83,14 +100,12 @@ const HistoryPage = () => {
               <textarea
                 id="questionInput"
                 value={comment}
-                onChange={(e) => setComment(e.target.value)} 
+                onChange={(e) => setComment(e.target.value)}
                 placeholder="Write your answer..."
                 rows="4"
               ></textarea>
               <div className="buttons">
-                <button
-                  onClick={() => handleCommentSubmit(question.question_id)} 
-                >
+                <button onClick={() => handleCommentSubmit(question.question_id)}>
                   Submit Answer
                 </button>
               </div>

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from 'axios'; 
 
 const HomePage = () => {
   const [question, setQuestion] = useState('');
+  const [showBanner, setShowBanner] = useState(false);  
 
   const handleQuestion = async () => {
     try {
@@ -23,8 +24,16 @@ const HomePage = () => {
       const response = await axios.post('http://localhost:5000/api/questions', questionData);
       setQuestion(''); 
       console.log('Question saved, ID:', response.data.id);
+
+    
+      setShowBanner(true);
+      setTimeout(() => {
+        setShowBanner(false);
+      }, 3000);
     } catch (error) {
       console.error('Error saving question:', error);
+
+      alert('Error submitting your question. Please try again.');
     }
   };
 
@@ -36,6 +45,12 @@ const HomePage = () => {
 
   return (
     <div className="content">
+      {showBanner && (
+        <div className="banner">
+          <p>Question successfully sent!</p>
+        </div>
+      )}
+
       <div id="home" className="section">
         <h2>Welcome to Uni Scholar</h2>
         <p>This platform allows students to ask questions and share answers. Feel free to explore and contribute to the community.</p>
